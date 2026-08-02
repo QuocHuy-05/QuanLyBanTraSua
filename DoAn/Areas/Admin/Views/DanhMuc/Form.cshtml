@@ -1,0 +1,39 @@
+@model DACK_LTW_Nhom4.Models.DanhMuc
+@{
+    bool laThem = Model.MaDanhMuc == 0;
+    string action = laThem ? "Them" : "Sua";
+    ViewBag.Title = laThem ? "Them danh muc" : "Sua danh muc";
+}
+
+<div class="bg-white rounded p-4" style="border:1px solid #E5D8C5; max-width:680px;">
+    @using (Html.BeginForm(action, "DanhMuc", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.MaDanhMuc)
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+        <div class="form-group">
+            <label>Ten danh muc <span class="text-danger">*</span></label>
+            @Html.TextBoxFor(m => m.TenDanhMuc, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TenDanhMuc, "", new { @class = "text-danger small" })
+        </div>
+
+        <div class="form-group">
+            <label>Hinh anh (duong dan URL)</label>
+            @Html.TextBoxFor(m => m.HinhAnh, new { @class = "form-control", placeholder = "/Content/Images/Categories/..." })
+        </div>
+
+        <div class="form-group">
+            <label>Thu tu hien thi</label>
+            @Html.TextBoxFor(m => m.ThuTuHienThi, new { @class = "form-control", type = "number" })
+        </div>
+
+        <div class="form-group form-check">
+            @Html.CheckBoxFor(m => m.TrangThai, new { @class = "form-check-input", id = "TrangThai" })
+            <label class="form-check-label" for="TrangThai">Hien thi tren trang khach</label>
+        </div>
+
+        <button type="submit" class="btn btn-trasua">@(laThem ? "Them moi" : "Cap nhat")</button>
+        @Html.ActionLink("Huy", "Index", null, new { @class = "btn btn-outline-secondary ml-2" })
+    }
+</div>

@@ -1,0 +1,59 @@
+@model DACK_LTW_Nhom4.ViewModels.DangKyVM
+@{
+    ViewBag.Title = "Dang ky";
+}
+
+<div class="container">
+    <div class="auth-card" style="max-width: 480px;">
+        <h3>Tao tai khoan moi</h3>
+
+        <form method="post" class="needs-validation" novalidate="novalidate" action="@Url.Action("DangKy", "Account")">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.HoTen)
+                @Html.TextBoxFor(m => m.HoTen, new { @class = "form-control", placeholder = "Nguyen Van A" })
+                @Html.ValidationMessageFor(m => m.HoTen, "", new { @class = "text-danger small" })
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.Email)
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "vidu@email.com" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small" })
+                </div>
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.SoDienThoai)
+                    @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control", placeholder = "0901234567" })
+                    @Html.ValidationMessageFor(m => m.SoDienThoai, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.DiaChi)
+                @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control", placeholder = "(Tuy chon)" })
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.MatKhau)
+                    @Html.PasswordFor(m => m.MatKhau, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger small" })
+                </div>
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(m => m.XacNhanMatKhau)
+                    @Html.PasswordFor(m => m.XacNhanMatKhau, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.XacNhanMatKhau, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-trasua btn-block">Dang ky</button>
+
+            <div class="text-center mt-3 small">
+                Da co tai khoan?
+                @Html.ActionLink("Dang nhap", "DangNhap", "Account")
+            </div>
+        </form>
+    </div>
+</div>

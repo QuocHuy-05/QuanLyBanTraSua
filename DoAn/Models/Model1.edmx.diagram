@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4736fede5868484288fb8e8c06ca6be5" Name="Diagram1">
+        <EntityTypeShape EntityType="QL_BanTraSuaModel.ChiTietDonHang" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BanTraSuaModel.DanhMuc" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BanTraSuaModel.DonHang" Width="1.5" PointX="3" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BanTraSuaModel.KhuyenMai" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BanTraSuaModel.LichSuVoucher" Width="1.5" PointX="5.25" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BanTraSuaModel.NguoiDung" Width="1.5" PointX="0.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BanTraSuaModel.SanPham" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BanTraSuaModel.Topping" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QL_BanTraSuaModel.Voucher" Width="1.5" PointX="3" PointY="15.5" IsExpanded="true" />
+        <AssociationConnector Association="QL_BanTraSuaModel.FK_CTDH_DonHang" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BanTraSuaModel.FK_CTDH_SanPham" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BanTraSuaModel.FK_SanPham_DanhMuc" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BanTraSuaModel.FK_DonHang_NguoiDung" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BanTraSuaModel.FK_LSV_DonHang" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BanTraSuaModel.FK_LSV_NguoiDung" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BanTraSuaModel.FK_LSV_Voucher" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BanTraSuaModel.ChiTietKhuyenMai" ManuallyRouted="false" />
+        <AssociationConnector Association="QL_BanTraSuaModel.SanPham_Topping" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

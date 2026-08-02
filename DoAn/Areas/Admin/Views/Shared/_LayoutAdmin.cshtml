@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewBag.Title - Admin | Tra Sua Shop</title>
+
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <style>
+        body { padding-top: 0; background: #F5F0E8; }
+    </style>
+</head>
+<body>
+
+<div class="admin-wrap">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+        <a href="/Admin/Home" class="brand">Tra Sua Admin</a>
+
+        <nav class="nav flex-column">
+            <a class="nav-link @(ViewBag.ActiveMenu == "dashboard" ? "active" : "")"
+               href="/Admin/Home">Tong quan</a>
+            <a class="nav-link @(ViewBag.ActiveMenu == "sanpham" ? "active" : "")"
+               href="/Admin/SanPham">San pham</a>
+            <a class="nav-link @(ViewBag.ActiveMenu == "danhmuc" ? "active" : "")"
+               href="/Admin/DanhMuc">Danh muc</a>
+            <a class="nav-link @(ViewBag.ActiveMenu == "topping" ? "active" : "")"
+               href="/Admin/Topping">Topping</a>
+            <a class="nav-link @(ViewBag.ActiveMenu == "khuyenmai" ? "active" : "")"
+               href="/Admin/KhuyenMai">Khuyen mai</a>
+            <a class="nav-link @(ViewBag.ActiveMenu == "voucher" ? "active" : "")"
+               href="/Admin/Voucher">Voucher</a>
+            <a class="nav-link @(ViewBag.ActiveMenu == "donhang" ? "active" : "")"
+               href="/Admin/DonHang">Don hang</a>
+            <a class="nav-link @(ViewBag.ActiveMenu == "nguoidung" ? "active" : "")"
+               href="/Admin/NguoiDung">Nguoi dung</a>
+
+            <div style="border-top: 1px solid rgba(255,255,255,0.08); margin: 12px 16px;"></div>
+
+            <a class="nav-link" href="/">Trang khach</a>
+            @Html.ActionLink("Dang xuat", "DangXuat", "Account", new { area = "" },
+                new { @class = "nav-link", style = "color:#F4A6A6;" })
+        </nav>
+    </aside>
+
+    <!-- NOI DUNG -->
+    <div class="admin-content">
+        <div class="admin-header">
+            <h5 class="mb-0" style="color: #4A2E14; font-weight: 700;">
+                @(ViewBag.PageTitle != null ? ViewBag.PageTitle.ToString() : "Quan tri")
+            </h5>
+            <span class="text-muted small">
+                Xin chao, @(Session["HoTen"] != null ? Session["HoTen"].ToString() : "Admin")
+            </span>
+        </div>
+
+        <div class="admin-body">
+            @Html.Partial("_ThongBao")
+            @RenderBody()
+        </div>
+    </div>
+
+</div>
+
+<script src="@Url.Content("~/Content/bootstrap/js/jquery-3.3.1.min.js")"></script>
+<script src="@Url.Content("~/Content/bootstrap/js/bootstrap.bundle.min.js")"></script>
+@RenderSection("scripts", required: false)
+
+</body>
+</html>

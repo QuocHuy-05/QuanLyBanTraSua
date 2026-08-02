@@ -1,0 +1,47 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.DonHang>
+@{
+    ViewBag.Title = "Lich su don hang";
+}
+
+<div class="container mt-4">
+    <h2 class="section-title">Lich su don hang</h2>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            Ban chua co don hang nao. @Html.ActionLink("Mua sam ngay", "Index", "Menu", null, new { @class = "alert-link" })
+        </div>
+    }
+    else
+    {
+        <div class="bg-white rounded p-3" style="border:1px solid #EEE5D8;">
+            <table class="table table-trasua mb-0">
+                <thead>
+                    <tr>
+                        <th>Ma don</th>
+                        <th>Ngay dat</th>
+                        <th class="text-right">Tong tien</th>
+                        <th class="text-center">Trang thai</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dh in Model)
+                    {
+                        <tr>
+                            <td><strong>#@dh.MaDonHang</strong></td>
+                            <td>@dh.NgayDat.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="text-right font-weight-bold">@string.Format("{0:N0}", dh.TongThanhToan) d</td>
+                            <td class="text-center">
+                                <span class="badge-trangthai badge-@dh.TrangThai">@dh.TrangThai</span>
+                            </td>
+                            <td>
+                                @Html.ActionLink("Xem chi tiet", "ChiTiet", "DonHang", new { id = dh.MaDonHang }, new { @class = "btn btn-sm btn-outline-trasua" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

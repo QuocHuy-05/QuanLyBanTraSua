@@ -1,0 +1,47 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.KhuyenMai>
+@{
+    ViewBag.Title = "Khuyen mai";
+}
+
+<div class="d-flex justify-content-end mb-3">
+    @Html.ActionLink("+ Them chuong trinh", "Them", null, new { @class = "btn btn-trasua" })
+</div>
+
+<div class="bg-white rounded p-3" style="border:1px solid #E5D8C5;">
+    <table class="table table-trasua mb-0">
+        <thead>
+            <tr>
+                <th>Ten chuong trinh</th>
+                <th>Kieu giam</th>
+                <th class="text-right">Gia tri</th>
+                <th>Thoi gian</th>
+                <th class="text-center">Trang thai</th>
+                <th class="text-right" style="width:140px;">Thao tac</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var km in Model)
+                {
+                    <tr>
+                        <td><strong>@km.TenChuongTrinh</strong></td>
+                        <td>@km.KieuGiam</td>
+                        <td class="text-right">@(km.KieuGiam == "PhanTram" ? km.GiaTri + " %" : string.Format("{0:N0}", km.GiaTri) + " d")</td>
+                        <td>@km.NgayBatDau.ToString("dd/MM") - @km.NgayKetThuc.ToString("dd/MM/yyyy")</td>
+                        <td class="text-center">
+                            <span class="badge badge-info">@km.TrangThai</span>
+                        </td>
+                        <td class="text-right">
+                            @Html.ActionLink("Sua", "Sua", new { id = km.MaKhuyenMai }, new { @class = "btn btn-sm btn-outline-trasua" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6" class="text-center text-muted">Chua co chuong trinh khuyen mai.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

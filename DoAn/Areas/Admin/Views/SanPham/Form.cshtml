@@ -1,0 +1,127 @@
+@model DACK_LTW_Nhom4.Models.SanPham
+@{
+    bool laThem = Model.MaSanPham == 0;
+    string action = laThem ? "Them" : "Sua";
+    ViewBag.Title = laThem ? "Them san pham" : "Sua san pham";
+    var danhMuc = ViewBag.DanhMuc as System.Collections.Generic.List<DACK_LTW_Nhom4.Models.DanhMuc>;
+    var topping = ViewBag.Topping as System.Collections.Generic.List<DACK_LTW_Nhom4.Models.Topping>;
+    int[] toppingChon = ViewBag.ToppingChon as int[];
+    if (toppingChon == null)
+    {
+        toppingChon = new int[0];
+    }
+}
+
+<div class="bg-white rounded p-4" style="border:1px solid #E5D8C5; max-width:900px;">
+    @using (Html.BeginForm(action, "SanPham", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.MaSanPham)
+        @Html.HiddenFor(m => m.TongLuotMua)
+        @Html.HiddenFor(m => m.NgayTao)
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <label>Ten san pham <span class="text-danger">*</span></label>
+                @Html.TextBoxFor(m => m.TenSanPham, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.TenSanPham, "", new { @class = "text-danger small" })
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Danh muc <span class="text-danger">*</span></label>
+                <select name="MaDanhMuc" class="form-control">
+                    @if (danhMuc != null)
+                    {
+                        foreach (var dm in danhMuc)
+                        {
+                            if (Model.MaDanhMuc == dm.MaDanhMuc)
+                            {
+                                <option value="@dm.MaDanhMuc" selected>@dm.TenDanhMuc</option>
+                            }
+                            else
+                            {
+                                <option value="@dm.MaDanhMuc">@dm.TenDanhMuc</option>
+                            }
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Mo ta</label>
+            @Html.TextAreaFor(m => m.MoTa, new { @class = "form-control", rows = "3" })
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label>Gia size S <span class="text-danger">*</span></label>
+                @Html.TextBoxFor(m => m.GiaS, new { @class = "form-control", type = "number", step = "1000" })
+            </div>
+            <div class="col-md-4 form-group">
+                <label>Gia size M <span class="text-danger">*</span></label>
+                @Html.TextBoxFor(m => m.GiaM, new { @class = "form-control", type = "number", step = "1000" })
+            </div>
+            <div class="col-md-4 form-group">
+                <label>Gia size L <span class="text-danger">*</span></label>
+                @Html.TextBoxFor(m => m.GiaL, new { @class = "form-control", type = "number", step = "1000" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Hinh anh hien tai</label>
+            @if (!string.IsNullOrEmpty(Model.HinhAnh))
+            {
+                <div><img src="@Model.HinhAnh" style="max-width:160px; max-height:160px; border-radius:6px;" /></div>
+            }
+            else
+            {
+                <div class="text-muted small">(Chua co)</div>
+            }
+            @Html.HiddenFor(m => m.HinhAnh)
+        </div>
+
+        <div class="form-group">
+            <label>Tai len anh moi (jpg/png/webp, &lt; 2MB)</label>
+            <input type="file" name="fileAnh" class="form-control-file" accept=".jpg,.jpeg,.png,.webp" />
+            @Html.ValidationMessage("HinhAnh", "", new { @class = "text-danger small" })
+        </div>
+
+        if (topping != null && topping.Any())
+        {
+            <div class="form-group">
+                <label>Topping co the chon</label>
+                <div>
+                    @foreach (var tp in topping)
+                    {
+                        bool daChon = toppingChon.Contains(tp.MaTopping);
+                        <label class="mr-3">
+                            @if (daChon)
+                            {
+                                <input type="checkbox" name="toppingIds" value="@tp.MaTopping" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="toppingIds" value="@tp.MaTopping" />
+                            }
+                            @tp.TenTopping (+@string.Format("{0:N0}", tp.GiaThem) d)
+                        </label>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="form-group form-check">
+            @Html.CheckBoxFor(m => m.LaBanChay, new { @class = "form-check-input", id = "LaBanChay" })
+            <label class="form-check-label" for="LaBanChay">Danh dau ban chay</label>
+        </div>
+
+        <div class="form-group form-check">
+            @Html.CheckBoxFor(m => m.TrangThai, new { @class = "form-check-input", id = "TrangThai" })
+            <label class="form-check-label" for="TrangThai">Dang ban</label>
+        </div>
+
+        <button type="submit" class="btn btn-trasua">@(laThem ? "Them moi" : "Cap nhat")</button>
+        @Html.ActionLink("Huy", "Index", null, new { @class = "btn btn-outline-secondary ml-2" })
+    }
+</div>

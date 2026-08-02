@@ -1,0 +1,67 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.SanPham>
+@{
+    var dmHienTai = ViewBag.DanhMucHienTai as DACK_LTW_Nhom4.Models.DanhMuc;
+    ViewBag.Title = dmHienTai != null ? dmHienTai.TenDanhMuc : "Danh muc";
+    var danhMuc = ViewBag.DanhMuc as System.Collections.Generic.List<DACK_LTW_Nhom4.Models.DanhMuc>;
+}
+
+<div class="container mt-4">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent px-0">
+            <li class="breadcrumb-item">@Html.ActionLink("Trang chu", "Index", "Home")</li>
+            <li class="breadcrumb-item">@Html.ActionLink("Menu", "Index", "Menu")</li>
+            <li class="breadcrumb-item active" aria-current="page">@(dmHienTai != null ? dmHienTai.TenDanhMuc : "")</li>
+        </ol>
+    </nav>
+
+    <h2 class="section-title">@(dmHienTai != null ? dmHienTai.TenDanhMuc : "")</h2>
+
+    @if (danhMuc != null)
+    {
+        <div class="mb-4">
+            @Html.ActionLink("Tat ca", "Index", "Menu", null, new { @class = "btn btn-outline-trasua btn-sm mr-2 mb-2" })
+            @foreach (var dm in danhMuc)
+            {
+                string cls = dmHienTai != null && dm.MaDanhMuc == dmHienTai.MaDanhMuc
+                    ? "btn btn-trasua btn-sm mr-2 mb-2"
+                    : "btn btn-outline-trasua btn-sm mr-2 mb-2";
+                @Html.ActionLink(dm.TenDanhMuc, "TheoLoai", "Menu", new { id = dm.MaDanhMuc }, new { @class = cls })
+            }
+        </div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var sp in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card-sanpham">
+                        @{
+                            string hinhAnh = !string.IsNullOrEmpty(sp.HinhAnh) ? sp.HinhAnh : Url.Content("~/Content/Images/no-image.svg");
+                        }
+                        <div class="card-img-wrap">
+                            <img src="@hinhAnh" alt="@sp.TenSanPham" onerror="this.src='@Url.Content("~/Content/Images/no-image.svg")'" />
+                        </div>
+                        <div class="card-body">
+                            @if (sp.LaBanChay)
+                            {
+                                <span class="badge-ban-chay">Ban chay</span>
+                            }
+                            <h6 class="card-title">@sp.TenSanPham</h6>
+                            <div class="price">@string.Format("{0:N0}", sp.GiaS)<span style="font-size:.85rem; font-weight:500;"> d</span></div>
+                            @Html.ActionLink("Xem chi tiet", "ChiTiet", "Menu", new { id = sp.MaSanPham }, new { @class = "btn btn-outline-trasua btn-sm w-100 mt-auto" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">Danh muc nay chua co san pham.</div>
+    }
+
+</div>

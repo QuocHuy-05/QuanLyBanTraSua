@@ -1,0 +1,39 @@
+@model DACK_LTW_Nhom4.ViewModels.DangNhapVM
+@{
+    ViewBag.Title = "Dang nhap";
+}
+
+<div class="container">
+    <div class="auth-card">
+        <h3>Dang nhap</h3>
+
+        <form method="post" class="needs-validation" novalidate="novalidate" action="@Url.Action("DangNhap", "Account", new { returnUrl = ViewBag.ReturnUrl })">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "vidu@email.com" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.MatKhau)
+                @Html.PasswordFor(m => m.MatKhau, new { @class = "form-control", placeholder = "Toi thieu 6 ky tu" })
+                @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger small" })
+            </div>
+
+            <div class="form-group form-check">
+                @Html.CheckBoxFor(m => m.GhiNhoToi, new { @class = "form-check-input", id = "GhiNhoToi" })
+                <label class="form-check-label" for="GhiNhoToi">Ghi nho dang nhap</label>
+            </div>
+
+            <button type="submit" class="btn btn-trasua btn-block">Dang nhap</button>
+
+            <div class="text-center mt-3 small">
+                Chua co tai khoan?
+                @Html.ActionLink("Dang ky ngay", "DangKy", "Account", null, new { @class = "" })
+            </div>
+        </form>
+    </div>
+</div>

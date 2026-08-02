@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewBag.Title - Tra Sua Shop</title>
+
+    @* Load truc tiep — khong qua bundle de dam bao chac chan tai duoc *@
+    <link href="@Url.Content("~/Content/bootstrap/css/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-md navbar-light navbar-trasua fixed-top">
+        <div class="container">
+            @Html.ActionLink("Tra Sua Shop", "Index", "Home", null, new { @class = "navbar-brand" })
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navMenu" aria-controls="navMenu"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        @Html.ActionLink("Trang chu", "Index", "Home", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Menu", "Index", "Menu", null, new { @class = "nav-link" })
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav ml-auto align-items-md-center">
+                    <!-- Gio hang -->
+                    <li class="nav-item">
+                        @{
+                            var gioHang = Session["GioHang"] as System.Collections.Generic.List<DACK_LTW_Nhom4.Models.GioHangItem>;
+                            int soLuongGioHang = gioHang != null ? gioHang.Count : 0;
+                        }
+                        <a class="nav-link" href="@Url.Action("Xem", "GioHang")">
+                            Gio hang
+                            @if (soLuongGioHang > 0)
+                            {
+                                <span class="cart-badge">@soLuongGioHang</span>
+                            }
+                        </a>
+                    </li>
+
+                    @if (Session["MaNguoiDung"] != null)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userMenu"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @Session["HoTen"]
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                                @Html.ActionLink("Don hang cua toi", "LichSu", "DonHang", null, new { @class = "dropdown-item" })
+                                @if (Session["VaiTro"] != null && Session["VaiTro"].ToString() == "Admin")
+                                {
+                                    <a class="dropdown-item" href="/Admin/Home">Quan tri</a>
+                                }
+                                <div class="dropdown-divider"></div>
+                                @Html.ActionLink("Dang xuat", "DangXuat", "Account", null, new { @class = "dropdown-item text-danger" })
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink("Dang nhap", "DangNhap", "Account", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item ml-md-2">
+                            @Html.ActionLink("Dang ky", "DangKy", "Account", null, new { @class = "btn btn-caramel btn-sm" })
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- THONG BAO -->
+    <div class="container mt-2" style="min-height: 1px;">
+        @Html.Partial("_ThongBao")
+    </div>
+
+    <!-- NOI DUNG CHINH -->
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer-trasua">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>Tra Sua Shop</h5>
+                    <p class="small">Thuong hieu tra sua thuyen thong, nguyen lieu tuoi sach, phuc vu tan tam.</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Lien he</h5>
+                    <p class="small mb-1">123 Duong ABC, Quan 1, TP.HCM</p>
+                    <p class="small mb-1">Dien thoai: 0900 000 000</p>
+                    <p class="small mb-1">Email: contact@trasua.shop</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Gio mo cua</h5>
+                    <p class="small mb-1">Thu 2 - Thu 6: 7:00 - 22:00</p>
+                    <p class="small mb-1">Thu 7 - CN: 8:00 - 23:00</p>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                &copy; 2026 Tra Sua Shop. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    @* JS — load cuoi de khong chan render *@
+    <script src="@Url.Content("~/Content/bootstrap/js/jquery-3.3.1.min.js")"></script>
+    <script src="@Url.Content("~/Content/bootstrap/js/bootstrap.bundle.min.js")"></script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

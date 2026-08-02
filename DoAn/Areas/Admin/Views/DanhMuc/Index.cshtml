@@ -1,0 +1,65 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.DanhMuc>
+@{
+    ViewBag.Title = "Danh muc";
+    string tuKhoa = ViewBag.TuKhoa as string;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+    <form method="get" action="@Url.Action("Index")" class="form-inline">
+        <input type="text" name="tuKhoa" class="form-control mr-2" placeholder="Tim ten danh muc..." value="@tuKhoa" />
+        <button type="submit" class="btn btn-outline-trasua">Tim</button>
+    </form>
+    @Html.ActionLink("+ Them danh muc", "Them", null, new { @class = "btn btn-trasua" })
+</div>
+
+<div class="bg-white rounded p-3" style="border:1px solid #E5D8C5;">
+    <table class="table table-trasua mb-0">
+        <thead>
+            <tr>
+                <th>Ma</th>
+                <th>Ten danh muc</th>
+                <th class="text-center">Thu tu</th>
+                <th class="text-center">Trang thai</th>
+                <th class="text-right" style="width:200px;">Thao tac</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var dm in Model)
+                {
+                    <tr>
+                        <td>@dm.MaDanhMuc</td>
+                        <td>@dm.TenDanhMuc</td>
+                        <td class="text-center">@dm.ThuTuHienThi</td>
+                        <td class="text-center">
+                            @if (dm.TrangThai) { <span class="badge badge-success">Hien</span> }
+                            else { <span class="badge badge-secondary">An</span> }
+                        </td>
+                        <td class="text-right">
+                            @Html.ActionLink("Sua", "Sua", new { id = dm.MaDanhMuc }, new { @class = "btn btn-sm btn-outline-trasua" })
+                            <button class="btn btn-sm btn-outline-secondary btn-doi-tt" data-id="@dm.MaDanhMuc">An/Hien</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="5" class="text-center text-muted">Chua co danh muc nao.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('.btn-doi-tt').on('click', function () {
+                var id = $(this).data('id');
+                $.post('@Url.Action("DoiTrangThai")', { id: id }, function (rs) {
+                    if (rs.thanhCong) location.reload();
+                });
+            });
+        });
+    </script>
+}

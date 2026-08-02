@@ -1,0 +1,76 @@
+@model DACK_LTW_Nhom4.Models.Voucher
+@{
+    bool laThem = Model.MaVoucher == 0;
+    string action = laThem ? "Them" : "Sua";
+    ViewBag.Title = laThem ? "Them voucher" : "Sua voucher";
+}
+
+<div class="bg-white rounded p-4" style="border:1px solid #E5D8C5; max-width:780px;">
+    @using (Html.BeginForm(action, "Voucher", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.MaVoucher)
+        @Html.HiddenFor(m => m.NgayTao)
+        @Html.HiddenFor(m => m.DaDung)
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <label>Ma code <span class="text-danger">*</span></label>
+                @Html.TextBoxFor(m => m.MaCode, new { @class = "form-control", style = "text-transform:uppercase;" })
+                @Html.ValidationMessageFor(m => m.MaCode, "", new { @class = "text-danger small" })
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Trang thai</label>
+                <select name="TrangThai" class="form-control">
+                    <option value="ConHieuLuc" @(Model.TrangThai == "ConHieuLuc" ? "selected" : "")>Con hieu luc</option>
+                    <option value="HetHan" @(Model.TrangThai == "HetHan" ? "selected" : "")>Het han</option>
+                    <option value="DaDungHet" @(Model.TrangThai == "DaDungHet" ? "selected" : "")>Da dung het</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Mo ta</label>
+            @Html.TextBoxFor(m => m.MoTa, new { @class = "form-control" })
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label>Kieu giam</label>
+                <select name="KieuGiam" class="form-control">
+                    <option value="PhanTram" @(Model.KieuGiam == "PhanTram" ? "selected" : "")>% (Phan tram)</option>
+                    <option value="SoTien" @(Model.KieuGiam == "SoTien" ? "selected" : "")>VND (So tien)</option>
+                </select>
+            </div>
+            <div class="col-md-4 form-group">
+                <label>Gia tri</label>
+                @Html.TextBoxFor(m => m.GiaTri, new { @class = "form-control", type = "number" })
+                @Html.ValidationMessageFor(m => m.GiaTri, "", new { @class = "text-danger small" })
+            </div>
+            <div class="col-md-4 form-group">
+                <label>Don hang toi thieu (d)</label>
+                @Html.TextBoxFor(m => m.DonHangToiThieu, new { @class = "form-control", type = "number", step = "1000" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label>So luong phat hanh (de trong = khong gioi han)</label>
+                @Html.TextBoxFor(m => m.SoLuongPhatHanh, new { @class = "form-control", type = "number" })
+            </div>
+            <div class="col-md-4 form-group">
+                <label>Ngay bat dau</label>
+                <input type="date" name="NgayBatDau" class="form-control" value="@Model.NgayBatDau.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="col-md-4 form-group">
+                <label>Ngay het han</label>
+                <input type="date" name="NgayHetHan" class="form-control" value="@Model.NgayHetHan.ToString("yyyy-MM-dd")" />
+                @Html.ValidationMessage("NgayHetHan", "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-trasua">@(laThem ? "Them moi" : "Cap nhat")</button>
+        @Html.ActionLink("Huy", "Index", null, new { @class = "btn btn-outline-secondary ml-2" })
+    }
+</div>

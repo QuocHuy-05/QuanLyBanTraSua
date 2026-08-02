@@ -1,0 +1,101 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.SanPham>
+@{
+    ViewBag.Title = "San pham";
+    var danhMuc = ViewBag.DanhMuc as System.Collections.Generic.List<DACK_LTW_Nhom4.Models.DanhMuc>;
+    int? maDanhMuc = ViewBag.MaDanhMuc as int?;
+    string tuKhoa = ViewBag.TuKhoa as string;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+    <form method="get" action="@Url.Action("Index")" class="form-inline">
+        <select name="maDanhMuc" class="form-control mr-2">
+            <option value="">- Tat ca danh muc -</option>
+            @if (danhMuc != null)
+            {
+                foreach (var dm in danhMuc)
+                {
+                    if (maDanhMuc.HasValue && maDanhMuc.Value == dm.MaDanhMuc)
+                    {
+                        <option value="@dm.MaDanhMuc" selected>@dm.TenDanhMuc</option>
+                    }
+                    else
+                    {
+                        <option value="@dm.MaDanhMuc">@dm.TenDanhMuc</option>
+                    }
+                }
+            }
+        </select>
+        <input type="text" name="tuKhoa" class="form-control mr-2" placeholder="Tim ten san pham..." value="@tuKhoa" />
+        <button type="submit" class="btn btn-outline-trasua">Loc</button>
+    </form>
+    @Html.ActionLink("+ Them san pham", "Them", null, new { @class = "btn btn-trasua" })
+</div>
+
+<div class="bg-white rounded p-3" style="border:1px solid #E5D8C5;">
+    <table class="table table-trasua mb-0">
+        <thead>
+            <tr>
+                <th style="width:80px;">Anh</th>
+                <th>Ten</th>
+                <th>Danh muc</th>
+                <th class="text-right">Gia S/M/L</th>
+                <th class="text-center">Luot mua</th>
+                <th class="text-center">Ban chay</th>
+                <th class="text-center">Trang thai</th>
+                <th class="text-right" style="width:220px;">Thao tac</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var sp in Model)
+                {
+                    string hinhAnh = !string.IsNullOrEmpty(sp.HinhAnh) ? sp.HinhAnh : Url.Content("~/Content/Images/no-image.svg");
+                    <tr>
+                        <td><img src="@hinhAnh" alt="" style="width:60px; height:60px; object-fit:cover; border-radius:6px;" onerror="this.src='@Url.Content("~/Content/Images/no-image.svg")'" /></td>
+                        <td>@sp.TenSanPham</td>
+                        <td>@(sp.DanhMuc != null ? sp.DanhMuc.TenDanhMuc : "")</td>
+                        <td class="text-right">@string.Format("{0:N0}", sp.GiaS) / @string.Format("{0:N0}", sp.GiaM) / @string.Format("{0:N0}", sp.GiaL)</td>
+                        <td class="text-center">@sp.TongLuotMua</td>
+                        <td class="text-center">
+                            <button class="btn btn-sm @(sp.LaBanChay ? "btn-caramel" : "btn-outline-secondary") btn-bc" data-id="@sp.MaSanPham">
+                                @(sp.LaBanChay ? "Co" : "Khong")
+                            </button>
+                        </td>
+                        <td class="text-center">
+                            @if (sp.TrangThai) { <span class="badge badge-success">Ban</span> }
+                            else { <span class="badge badge-secondary">An</span> }
+                        </td>
+                        <td class="text-right">
+                            @Html.ActionLink("Sua", "Sua", new { id = sp.MaSanPham }, new { @class = "btn btn-sm btn-outline-trasua" })
+                            <button class="btn btn-sm btn-outline-secondary btn-doi-tt" data-id="@sp.MaSanPham">An/Hien</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="8" class="text-center text-muted">Chua co san pham.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('.btn-doi-tt').on('click', function () {
+                var id = $(this).data('id');
+                $.post('@Url.Action("DoiTrangThai")', { id: id }, function (rs) {
+                    if (rs.thanhCong) location.reload();
+                });
+            });
+            $('.btn-bc').on('click', function () {
+                var id = $(this).data('id');
+                $.post('@Url.Action("DanhDauBanChay")', { id: id }, function (rs) {
+                    if (rs.thanhCong) location.reload();
+                });
+            });
+        });
+    </script>
+}

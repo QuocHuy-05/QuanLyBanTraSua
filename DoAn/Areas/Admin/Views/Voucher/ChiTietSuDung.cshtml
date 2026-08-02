@@ -1,0 +1,53 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.LichSuVoucher>
+@{
+    var vc = ViewBag.Voucher as DACK_LTW_Nhom4.Models.Voucher;
+    ViewBag.Title = "Lich su voucher";
+}
+
+<div class="bg-white rounded p-3 mb-3" style="border:1px solid #E5D8C5;">
+    <h5 style="color:#4A2E14; font-weight:700;">Voucher: <code>@(vc != null ? vc.MaCode : "")</code></h5>
+    @if (vc != null)
+    {
+        <p class="mb-0 text-muted">
+            @vc.MoTa<br />
+            Da dung: <strong>@vc.DaDung</strong> /
+            @(vc.SoLuongPhatHanh.HasValue ? vc.SoLuongPhatHanh.Value.ToString() : "Khong gioi han")
+        </p>
+    }
+</div>
+
+<div class="bg-white rounded p-3" style="border:1px solid #E5D8C5;">
+    <h6>Danh sach su dung</h6>
+    <table class="table table-trasua mb-0">
+        <thead>
+            <tr>
+                <th>Ngay dung</th>
+                <th>Khach hang</th>
+                <th>Don hang</th>
+                <th class="text-right">So tien giam</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var ls in Model)
+                {
+                    <tr>
+                        <td>@ls.NgayDung.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@(ls.NguoiDung != null ? ls.NguoiDung.HoTen : "")</td>
+                        <td>#@ls.MaDonHang</td>
+                        <td class="text-right">@string.Format("{0:N0}", ls.SoTienGiam) d</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="4" class="text-center text-muted">Chua co ai su dung voucher nay.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-3">
+    @Html.ActionLink("Quay lai", "Index", null, new { @class = "btn btn-outline-secondary" })
+</div>

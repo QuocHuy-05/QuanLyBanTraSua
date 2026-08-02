@@ -1,0 +1,463 @@
+﻿/* =============================================
+   TRA SUA SHOP — Site.css
+   Bo cuc: nen trang/kem sang, nau lam diem nhan
+   Bootstrap 4 + custom (KHONG dung CSS variables
+   de tuong thich trinh duyet cu va bundling)
+   ============================================= */
+
+/* --- Base --- */
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: #FAF7F2;       /* nen kem rat nhat */
+    color: #2D2D2D;                  /* text mau than chu */
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    padding-top: 64px;               /* chua navbar fixed-top */
+    line-height: 1.55;
+}
+
+a {
+    color: #8B5A2B;
+}
+
+a:hover {
+    color: #6F4520;
+    text-decoration: none;
+}
+
+/* =============================================
+   NAVBAR (nen TRANG, chu nau — sang sua, hien dai)
+   ============================================= */
+.navbar-trasua {
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding: 0.6rem 0;
+}
+
+.navbar-trasua .navbar-brand {
+    color: #6F4520 !important;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
+.navbar-trasua .navbar-brand:hover {
+    color: #4A2E14 !important;
+}
+
+.navbar-trasua .nav-link {
+    color: #4A4A4A !important;
+    font-weight: 500;
+    padding: 0.5rem 0.9rem !important;
+}
+
+.navbar-trasua .nav-link:hover {
+    color: #8B5A2B !important;
+}
+
+.navbar-trasua .nav-link.active {
+    color: #8B5A2B !important;
+    font-weight: 700;
+}
+
+/* Hamburger toggle */
+.navbar-trasua .navbar-toggler {
+    border-color: #D4B896;
+    color: #6F4520;
+}
+
+.navbar-trasua .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(111,69,32,0.9)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Badge gio hang */
+.cart-badge {
+    background-color: #D4A574;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.72rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+
+/* =============================================
+   BUTTON
+   ============================================= */
+.btn-trasua {
+    background-color: #8B5A2B;
+    color: #FFFFFF !important;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.45rem 1.1rem;
+    transition: background-color 0.15s;
+}
+
+.btn-trasua:hover,
+.btn-trasua:focus {
+    background-color: #6F4520;
+    color: #FFFFFF !important;
+}
+
+.btn-caramel {
+    background-color: #D4A574;
+    color: #4A2E14 !important;
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    padding: 0.45rem 1.1rem;
+    transition: background-color 0.15s;
+}
+
+.btn-caramel:hover,
+.btn-caramel:focus {
+    background-color: #C19560;
+    color: #4A2E14 !important;
+}
+
+.btn-outline-trasua {
+    background-color: transparent;
+    color: #8B5A2B !important;
+    border: 1.5px solid #8B5A2B;
+    border-radius: 6px;
+    font-weight: 600;
+    padding: 0.4rem 1.1rem;
+}
+
+.btn-outline-trasua:hover {
+    background-color: #8B5A2B;
+    color: #FFFFFF !important;
+}
+
+/* =============================================
+   BANNER trang chu
+   ============================================= */
+.hero-banner {
+    background: linear-gradient(135deg, #FFF8EE 0%, #F5E6D0 100%);
+    padding: 70px 0 60px;
+    border-bottom: 1px solid #EFE4D2;
+}
+
+.hero-banner h1 {
+    color: #4A2E14;
+    font-weight: 800;
+    font-size: 2.6rem;
+    margin-bottom: 16px;
+}
+
+.hero-banner p.lead {
+    color: #6B5644;
+    font-size: 1.15rem;
+    margin-bottom: 24px;
+}
+
+/* =============================================
+   SECTION title
+   ============================================= */
+.section-title {
+    color: #4A2E14;
+    font-weight: 700;
+    font-size: 1.6rem;
+    margin-bottom: 1.4rem;
+    position: relative;
+    padding-left: 14px;
+}
+
+.section-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 5px;
+    background: #D4A574;
+    border-radius: 3px;
+}
+
+/* =============================================
+   CARD san pham
+   ============================================= */
+.card-sanpham {
+    background: #FFFFFF;
+    border: 1px solid #EEE5D8;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+    transition: box-shadow 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-sanpham:hover {
+    box-shadow: 0 6px 20px rgba(139, 90, 43, 0.15);
+    transform: translateY(-3px);
+}
+
+.card-sanpham .card-img-wrap {
+    width: 100%;
+    height: 180px;
+    background: #F5EFE6;
+    overflow: hidden;
+}
+
+.card-sanpham .card-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-sanpham .card-body {
+    padding: 14px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-sanpham .card-title {
+    font-weight: 700;
+    color: #2D2D2D;
+    font-size: 1rem;
+    margin-bottom: 6px;
+    min-height: 2.6em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-sanpham .price {
+    color: #8B5A2B;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.badge-ban-chay {
+    background-color: #D4A574;
+    color: #FFFFFF;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+/* =============================================
+   CARD danh muc
+   ============================================= */
+.card-danhmuc {
+    display: block;
+    text-align: center;
+    padding: 28px 12px;
+    background: #FFFFFF;
+    border: 1px solid #EEE5D8;
+    border-radius: 10px;
+    color: #4A2E14;
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-decoration: none;
+    transition: all 0.15s;
+}
+
+.card-danhmuc:hover {
+    border-color: #D4A574;
+    background: #FFF8EE;
+    color: #4A2E14;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.footer-trasua {
+    background-color: #3D2817;
+    color: rgba(255, 255, 255, 0.85);
+    padding: 40px 0 18px;
+    margin-top: 70px;
+}
+
+.footer-trasua h5 {
+    color: #D4A574;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+}
+
+.footer-trasua a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+}
+
+.footer-trasua a:hover {
+    color: #D4A574;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    margin-top: 24px;
+    padding-top: 14px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+/* =============================================
+   ADMIN LAYOUT
+   ============================================= */
+.admin-wrap {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background-color: #3D2817;
+    color: #FFFFFF;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.admin-sidebar .brand {
+    color: #D4A574;
+    font-size: 1.15rem;
+    font-weight: 800;
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: block;
+    text-decoration: none;
+}
+
+.admin-sidebar .brand:hover {
+    color: #E8C495;
+    text-decoration: none;
+}
+
+.admin-sidebar .nav {
+    padding: 10px 0;
+}
+
+.admin-sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.78);
+    padding: 11px 22px;
+    font-size: 0.93rem;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+}
+
+.admin-sidebar .nav-link:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.05);
+    text-decoration: none;
+}
+
+.admin-sidebar .nav-link.active {
+    color: #D4A574;
+    background-color: rgba(212, 165, 116, 0.1);
+    border-left-color: #D4A574;
+    font-weight: 600;
+}
+
+.admin-content {
+    margin-left: 230px;
+    flex-grow: 1;
+    background-color: #F5F0E8;
+    min-height: 100vh;
+}
+
+.admin-header {
+    background: #FFFFFF;
+    padding: 14px 24px;
+    border-bottom: 1px solid #E5D8C5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-body {
+    padding: 24px;
+}
+
+/* Stat card admin */
+.stat-card {
+    border-radius: 10px;
+    padding: 20px;
+    color: #FFFFFF;
+    font-weight: 600;
+    background: #8B5A2B;
+}
+
+.stat-card .number {
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.stat-card .label {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    margin-top: 4px;
+}
+
+/* =============================================
+   FORM
+   ============================================= */
+.form-control:focus {
+    border-color: #D4A574;
+    box-shadow: 0 0 0 0.2rem rgba(212, 165, 116, 0.2);
+}
+
+.auth-card {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 32px 28px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.auth-card h3 {
+    color: #4A2E14;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+/* =============================================
+   TABLE
+   ============================================= */
+.table-trasua thead {
+    background-color: #8B5A2B;
+    color: #FFFFFF;
+}
+
+.table-trasua thead th {
+    border: none;
+    font-weight: 600;
+}
+
+/* =============================================
+   BADGE trang thai don hang
+   ============================================= */
+.badge-ChoXacNhan   { background-color: #FFB347; color: #4A2E14; }
+.badge-DangChuanBi  { background-color: #5BC0DE; color: #FFFFFF; }
+.badge-DangGiao     { background-color: #5085C7; color: #FFFFFF; }
+.badge-HoanThanh    { background-color: #5CB85C; color: #FFFFFF; }
+.badge-DaHuy        { background-color: #D9534F; color: #FFFFFF; }
+
+.badge-trangthai {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 12px;
+    display: inline-block;
+}

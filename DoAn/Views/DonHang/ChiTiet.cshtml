@@ -1,0 +1,117 @@
+@model DACK_LTW_Nhom4.Models.DonHang
+@{
+    ViewBag.Title = "Chi tiet don #" + Model.MaDonHang;
+}
+
+<div class="container mt-4">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent px-0">
+            <li class="breadcrumb-item">@Html.ActionLink("Trang chu", "Index", "Home")</li>
+            <li class="breadcrumb-item">@Html.ActionLink("Lich su don hang", "LichSu", "DonHang")</li>
+            <li class="breadcrumb-item active">#@Model.MaDonHang</li>
+        </ol>
+    </nav>
+
+    <div class="bg-white rounded p-4" style="border:1px solid #EEE5D8;">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+            <h4 style="color:#4A2E14; font-weight:700;" class="mb-0">Don hang #@Model.MaDonHang</h4>
+            <span class="badge-trangthai badge-@Model.TrangThai">@Model.TrangThai</span>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h6 style="color:#4A2E14; font-weight:700;">Thong tin giao hang</h6>
+                <p class="mb-1"><strong>Nguoi nhan:</strong> @Model.TenNguoiNhan</p>
+                <p class="mb-1"><strong>Dien thoai:</strong> @Model.SoDienThoai</p>
+                <p class="mb-1"><strong>Dia chi:</strong> @Model.DiaChiGiaoHang</p>
+                @if (!string.IsNullOrEmpty(Model.GhiChu))
+                {
+                    <p class="mb-1"><strong>Ghi chu:</strong> @Model.GhiChu</p>
+                }
+            </div>
+            <div class="col-md-6">
+                <h6 style="color:#4A2E14; font-weight:700;">Thong tin don</h6>
+                <p class="mb-1"><strong>Ngay dat:</strong> @Model.NgayDat.ToString("dd/MM/yyyy HH:mm")</p>
+                <p class="mb-1"><strong>Cap nhat:</strong> @Model.NgayCapNhat.ToString("dd/MM/yyyy HH:mm")</p>
+                @if (!string.IsNullOrEmpty(Model.MaVoucherDaDung))
+                {
+                    <p class="mb-1"><strong>Voucher:</strong> @Model.MaVoucherDaDung</p>
+                }
+                @if (Model.TrangThai == "DaHuy" && !string.IsNullOrEmpty(Model.LyDoHuy))
+                {
+                    <p class="mb-1 text-danger"><strong>Ly do huy:</strong> @Model.LyDoHuy</p>
+                }
+            </div>
+        </div>
+
+        <h6 style="color:#4A2E14; font-weight:700;">San pham</h6>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>San pham</th>
+                    <th class="text-center">SL</th>
+                    <th class="text-right">Don gia</th>
+                    <th class="text-right">Thanh tien</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ct in Model.ChiTietDonHang)
+                {
+                    <tr>
+                        <td>
+                            <div style="font-weight:600;">@ct.TenSanPham</div>
+                            <small class="text-muted">
+                                Size @ct.Size &middot; @ct.MucDuong &middot; @ct.MucDa
+                                @if (!string.IsNullOrEmpty(ct.DanhSachTopping))
+                                {
+                                    <br />
+                                    <span>Topping: @ct.DanhSachTopping</span>
+                                }
+                            </small>
+                        </td>
+                        <td class="text-center">@ct.SoLuong</td>
+                        <td class="text-right">@string.Format("{0:N0}", ct.DonGia + ct.GiaTopping) d</td>
+                        <td class="text-right font-weight-bold">@string.Format("{0:N0}", ct.ThanhTien) d</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right">Tam tinh:</td>
+                    <td class="text-right">@string.Format("{0:N0}", Model.TamTinh) d</td>
+                </tr>
+                @if (Model.GiamVoucher > 0)
+                {
+                    <tr>
+                        <td colspan="3" class="text-right">Giam voucher:</td>
+                        <td class="text-right text-danger">- @string.Format("{0:N0}", Model.GiamVoucher) d</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="3" class="text-right" style="font-size:1.15rem;"><strong>Tong thanh toan:</strong></td>
+                    <td class="text-right" style="font-size:1.15rem; color:#8B5A2B;"><strong>@string.Format("{0:N0}", Model.TongThanhToan) d</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        @if (Model.TrangThai == "ChoXacNhan")
+        {
+            <hr />
+            <h6 style="color:#4A2E14; font-weight:700;">Huy don hang</h6>
+            <form method="post" action="@Url.Action("Huy", "DonHang")" onsubmit="return confirm('Ban chac chan muon huy don nay?');">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.MaDonHang" />
+                <div class="form-group">
+                    <input type="text" name="lyDo" class="form-control" placeholder="Ly do huy (tuy chon)" />
+                </div>
+                <button type="submit" class="btn btn-outline-danger">Huy don hang</button>
+                @Html.ActionLink("Quay lai", "LichSu", "DonHang", null, new { @class = "btn btn-outline-secondary ml-2" })
+            </form>
+        }
+        else
+        {
+            @Html.ActionLink("Quay lai lich su", "LichSu", "DonHang", null, new { @class = "btn btn-outline-trasua" })
+        }
+    </div>
+</div>

@@ -1,0 +1,66 @@
+@{
+    ViewBag.Title = "Tong quan";
+    int donHangHomNay = (int)ViewBag.DonHangHomNay;
+    decimal doanhThuThang = (decimal)ViewBag.DoanhThuThang;
+    int donChoXacNhan = (int)ViewBag.DonChoXacNhan;
+    int tongKhachHang = (int)ViewBag.TongKhachHang;
+    var top5 = ViewBag.Top5 as System.Collections.Generic.List<DACK_LTW_Nhom4.Models.SanPham>;
+}
+
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <div class="stat-card" style="background:#5085C7;">
+            <div class="label">Don hom nay</div>
+            <div class="number">@donHangHomNay</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card" style="background:#5CB85C;">
+            <div class="label">Doanh thu thang nay</div>
+            <div class="number">@string.Format("{0:N0}", doanhThuThang)</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card" style="background:#F0AD4E;">
+            <div class="label">Don cho xac nhan</div>
+            <div class="number">@donChoXacNhan</div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="stat-card" style="background:#8B5A2B;">
+            <div class="label">Tong khach hang</div>
+            <div class="number">@tongKhachHang</div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white rounded p-3 mt-3" style="border:1px solid #E5D8C5;">
+    <h5 style="color:#4A2E14; font-weight:700;">Top 5 san pham nhieu luot mua</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>San pham</th>
+                <th class="text-center">Luot mua</th>
+                <th class="text-center">Trang thai</th>
+                <th class="text-right">Gia S/M/L</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (top5 != null)
+            {
+                foreach (var sp in top5)
+                {
+                    <tr>
+                        <td>@sp.TenSanPham</td>
+                        <td class="text-center">@sp.TongLuotMua</td>
+                        <td class="text-center">
+                            @if (sp.TrangThai) { <span class="badge badge-success">Dang ban</span> }
+                            else { <span class="badge badge-secondary">Tam an</span> }
+                        </td>
+                        <td class="text-right">@string.Format("{0:N0}", sp.GiaS) / @string.Format("{0:N0}", sp.GiaM) / @string.Format("{0:N0}", sp.GiaL)</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

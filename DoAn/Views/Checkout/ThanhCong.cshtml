@@ -1,0 +1,51 @@
+@model DACK_LTW_Nhom4.Models.DonHang
+@{
+    ViewBag.Title = "Dat hang thanh cong";
+}
+
+<div class="container mt-4">
+    <div class="bg-white rounded p-5 text-center" style="border:1px solid #EEE5D8; max-width:680px; margin:0 auto;">
+        <div style="font-size:3rem; color:#5CB85C;">&#10004;</div>
+        <h2 style="color:#4A2E14; font-weight:700;">Dat hang thanh cong!</h2>
+        <p class="text-muted">
+            Don hang <strong>#@Model.MaDonHang</strong> da duoc tao luc @Model.NgayDat.ToString("dd/MM/yyyy HH:mm")
+        </p>
+
+        <hr />
+        <div class="text-left">
+            <h6 style="color:#4A2E14; font-weight:700;">Thong tin giao hang</h6>
+            <p class="mb-1"><strong>Nguoi nhan:</strong> @Model.TenNguoiNhan</p>
+            <p class="mb-1"><strong>Dien thoai:</strong> @Model.SoDienThoai</p>
+            <p class="mb-1"><strong>Dia chi:</strong> @Model.DiaChiGiaoHang</p>
+            @if (!string.IsNullOrEmpty(Model.GhiChu))
+            {
+                <p class="mb-1"><strong>Ghi chu:</strong> @Model.GhiChu</p>
+            }
+        </div>
+
+        <hr />
+        <div class="text-left">
+            <h6 style="color:#4A2E14; font-weight:700;">San pham</h6>
+            @foreach (var ct in Model.ChiTietDonHang)
+            {
+                <div class="d-flex justify-content-between mb-2">
+                    <div class="small">
+                        @ct.TenSanPham (@ct.Size) <span class="text-muted">x@ct.SoLuong</span>
+                    </div>
+                    <div class="small">@string.Format("{0:N0}", ct.ThanhTien) d</div>
+                </div>
+            }
+        </div>
+
+        <hr />
+        <div class="d-flex justify-content-between" style="font-size:1.2rem;">
+            <strong>Tong thanh toan:</strong>
+            <strong style="color:#8B5A2B;">@string.Format("{0:N0}", Model.TongThanhToan) d</strong>
+        </div>
+
+        <div class="mt-4">
+            @Html.ActionLink("Xem lich su don hang", "LichSu", "DonHang", null, new { @class = "btn btn-trasua mr-2" })
+            @Html.ActionLink("Tiep tuc mua hang", "Index", "Menu", null, new { @class = "btn btn-outline-trasua" })
+        </div>
+    </div>
+</div>

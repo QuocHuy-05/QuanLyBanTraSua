@@ -1,0 +1,34 @@
+@model DACK_LTW_Nhom4.Models.Topping
+@{
+    bool laThem = Model.MaTopping == 0;
+    string action = laThem ? "Them" : "Sua";
+    ViewBag.Title = laThem ? "Them topping" : "Sua topping";
+}
+
+<div class="bg-white rounded p-4" style="border:1px solid #E5D8C5; max-width:560px;">
+    @using (Html.BeginForm(action, "Topping", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.MaTopping)
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+        <div class="form-group">
+            <label>Ten topping <span class="text-danger">*</span></label>
+            @Html.TextBoxFor(m => m.TenTopping, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TenTopping, "", new { @class = "text-danger small" })
+        </div>
+
+        <div class="form-group">
+            <label>Gia them (d)</label>
+            @Html.TextBoxFor(m => m.GiaThem, new { @class = "form-control", type = "number", step = "1000" })
+        </div>
+
+        <div class="form-group form-check">
+            @Html.CheckBoxFor(m => m.TrangThai, new { @class = "form-check-input", id = "TrangThai" })
+            <label class="form-check-label" for="TrangThai">Dang ban</label>
+        </div>
+
+        <button type="submit" class="btn btn-trasua">@(laThem ? "Them moi" : "Cap nhat")</button>
+        @Html.ActionLink("Huy", "Index", null, new { @class = "btn btn-outline-secondary ml-2" })
+    }
+</div>

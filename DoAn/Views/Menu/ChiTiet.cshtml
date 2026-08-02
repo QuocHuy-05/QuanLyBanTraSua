@@ -1,0 +1,125 @@
+@model DACK_LTW_Nhom4.Models.SanPham
+@{
+    ViewBag.Title = Model.TenSanPham;
+}
+
+<div class="container mt-4">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent px-0">
+            <li class="breadcrumb-item">@Html.ActionLink("Trang chu", "Index", "Home")</li>
+            <li class="breadcrumb-item">@Html.ActionLink("Menu", "Index", "Menu")</li>
+            @if (Model.DanhMuc != null)
+            {
+                <li class="breadcrumb-item">@Html.ActionLink(Model.DanhMuc.TenDanhMuc, "TheoLoai", "Menu", new { id = Model.DanhMuc.MaDanhMuc }, null)</li>
+            }
+            <li class="breadcrumb-item active" aria-current="page">@Model.TenSanPham</li>
+        </ol>
+    </nav>
+
+    <div class="row bg-white p-4 rounded" style="border:1px solid #EEE5D8;">
+        <div class="col-md-5">
+            @{
+                string hinhAnh = !string.IsNullOrEmpty(Model.HinhAnh) ? Model.HinhAnh : Url.Content("~/Content/Images/no-image.svg");
+            }
+            <img src="@hinhAnh" alt="@Model.TenSanPham" class="img-fluid rounded" style="width:100%; max-height:420px; object-fit:cover;" onerror="this.src='@Url.Content("~/Content/Images/no-image.svg")'" />
+        </div>
+        <div class="col-md-7">
+            <h2 style="color:#4A2E14; font-weight:700;">@Model.TenSanPham</h2>
+            <p class="text-muted">@Model.MoTa</p>
+
+            <hr />
+
+            <form id="formThemGio" method="post" action="@Url.Action("ThemVao", "GioHang")">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="maSanPham" value="@Model.MaSanPham" />
+
+                <div class="form-group">
+                    <label class="font-weight-bold">Kich co:</label><br />
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-trasua active">
+                            <input type="radio" name="size" value="S" data-gia="@Model.GiaS" checked /> S
+                            <small class="d-block">@string.Format("{0:N0}", Model.GiaS) d</small>
+                        </label>
+                        <label class="btn btn-outline-trasua">
+                            <input type="radio" name="size" value="M" data-gia="@Model.GiaM" /> M
+                            <small class="d-block">@string.Format("{0:N0}", Model.GiaM) d</small>
+                        </label>
+                        <label class="btn btn-outline-trasua">
+                            <input type="radio" name="size" value="L" data-gia="@Model.GiaL" /> L
+                            <small class="d-block">@string.Format("{0:N0}", Model.GiaL) d</small>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold">Muc duong:</label>
+                    <select name="mucDuong" class="form-control">
+                        <option value="100%">100%</option>
+                        <option value="70%" selected>70%</option>
+                        <option value="50%">50%</option>
+                        <option value="30%">30%</option>
+                        <option value="0%">Khong duong</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold">Muc da:</label>
+                    <select name="mucDa" class="form-control">
+                        <option value="NhieuDa">Nhieu da</option>
+                        <option value="VuaDa" selected>Vua da</option>
+                        <option value="ItDa">It da</option>
+                        <option value="KhongDa">Khong da</option>
+                    </select>
+                </div>
+
+                @if (Model.Topping != null && Model.Topping.Any(t => t.TrangThai))
+                {
+                    <div class="form-group">
+                        <label class="font-weight-bold">Topping them:</label>
+                        <div>
+                            @foreach (var tp in Model.Topping.Where(t => t.TrangThai))
+                            {
+                                <label class="mr-3">
+                                    <input type="checkbox" name="topping" value="@tp.MaTopping" data-gia="@tp.GiaThem" />
+                                    @tp.TenTopping (+@string.Format("{0:N0}", tp.GiaThem) d)
+                                </label>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <label class="font-weight-bold">So luong:</label>
+                    <input type="number" name="soLuong" id="soLuong" value="1" min="1" max="20" class="form-control" style="width:120px;" />
+                </div>
+
+                <div class="alert alert-light border" style="background:#FFF8EE;">
+                    <strong>Tong tien:</strong> <span id="tongTien" style="font-size:1.4rem; color:#8B5A2B; font-weight:700;">@string.Format("{0:N0}", Model.GiaS) d</span>
+                </div>
+
+                <button type="submit" class="btn btn-trasua btn-lg">Them vao gio hang</button>
+                @Html.ActionLink("Quay lai Menu", "Index", "Menu", null, new { @class = "btn btn-outline-secondary btn-lg ml-2" })
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            function tinhTong() {
+                var gia = parseFloat($('input[name=size]:checked').data('gia')) || 0;
+                var giaTopping = 0;
+                $('input[name=topping]:checked').each(function () {
+                    giaTopping += parseFloat($(this).data('gia')) || 0;
+                });
+                var soLuong = parseInt($('#soLuong').val()) || 1;
+                var tong = (gia + giaTopping) * soLuong;
+                $('#tongTien').text(tong.toLocaleString('vi-VN') + ' d');
+            }
+
+            $('input[name=size], input[name=topping], #soLuong').on('change keyup', tinhTong);
+        });
+    </script>
+}

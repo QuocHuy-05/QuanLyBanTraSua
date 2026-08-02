@@ -1,0 +1,52 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.Voucher>
+@{
+    ViewBag.Title = "Voucher";
+}
+
+<div class="d-flex justify-content-end mb-3">
+    @Html.ActionLink("+ Them voucher", "Them", null, new { @class = "btn btn-trasua" })
+</div>
+
+<div class="bg-white rounded p-3" style="border:1px solid #E5D8C5;">
+    <table class="table table-trasua mb-0">
+        <thead>
+            <tr>
+                <th>Ma code</th>
+                <th>Kieu giam</th>
+                <th class="text-right">Gia tri</th>
+                <th class="text-right">Don toi thieu</th>
+                <th class="text-center">Da/Tong</th>
+                <th>Han</th>
+                <th class="text-center">Trang thai</th>
+                <th class="text-right" style="width:220px;">Thao tac</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var vc in Model)
+                {
+                    <tr>
+                        <td><code>@vc.MaCode</code></td>
+                        <td>@vc.KieuGiam</td>
+                        <td class="text-right">@(vc.KieuGiam == "PhanTram" ? vc.GiaTri + " %" : string.Format("{0:N0}", vc.GiaTri) + " d")</td>
+                        <td class="text-right">@string.Format("{0:N0}", vc.DonHangToiThieu) d</td>
+                        <td class="text-center">@vc.DaDung / @(vc.SoLuongPhatHanh.HasValue ? vc.SoLuongPhatHanh.Value.ToString() : "Khong gioi han")</td>
+                        <td>@vc.NgayBatDau.ToString("dd/MM") - @vc.NgayHetHan.ToString("dd/MM/yy")</td>
+                        <td class="text-center">
+                            <span class="badge badge-info">@vc.TrangThai</span>
+                        </td>
+                        <td class="text-right">
+                            @Html.ActionLink("Sua", "Sua", new { id = vc.MaVoucher }, new { @class = "btn btn-sm btn-outline-trasua" })
+                            @Html.ActionLink("Lich su", "ChiTietSuDung", new { id = vc.MaVoucher }, new { @class = "btn btn-sm btn-outline-secondary" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="8" class="text-center text-muted">Chua co voucher.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

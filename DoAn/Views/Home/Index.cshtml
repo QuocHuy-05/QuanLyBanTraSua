@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Trang chu";
+}
+
+<!-- BANNER -->
+<div class="hero-banner">
+    <div class="container text-center">
+        <h1>Chao mung den Tra Sua Shop</h1>
+        <p class="lead">Thuong hieu tra sua thuyen thong &mdash; Nguyen lieu tuoi sach &mdash; Phuc vu tan tam</p>
+        <div class="mt-3">
+            @Html.ActionLink("Xem Menu ngay", "Index", "Menu", null, new { @class = "btn btn-trasua btn-lg px-4" })
+        </div>
+    </div>
+</div>
+
+<!-- SAN PHAM BAN CHAY -->
+<div class="container mt-5">
+    <h2 class="section-title">San pham ban chay</h2>
+
+    @if (ViewBag.SanPhamBanChay != null)
+    {
+        <div class="row">
+            @foreach (var sp in ViewBag.SanPhamBanChay)
+            {
+                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card-sanpham">
+                        @{
+                            string hinhAnh = !string.IsNullOrEmpty((string)sp.HinhAnh) ? (string)sp.HinhAnh : Url.Content("~/Content/Images/no-image.svg");
+                        }
+                        <div class="card-img-wrap">
+                            <img src="@hinhAnh" alt="@sp.TenSanPham" onerror="this.src='@Url.Content("~/Content/Images/no-image.svg")'" />
+                        </div>
+                        <div class="card-body">
+                            <span class="badge-ban-chay">Ban chay</span>
+                            <h6 class="card-title">@sp.TenSanPham</h6>
+                            <div class="price">@string.Format("{0:N0}", sp.GiaS)<span style="font-size:.85rem; font-weight:500;"> d</span></div>
+                            @Html.ActionLink("Xem chi tiet", "ChiTiet", "Menu",
+                                new { id = sp.MaSanPham },
+                                new { @class = "btn btn-outline-trasua btn-sm w-100 mt-auto" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">Chua co du lieu san pham. Vui long chay <code>du_lieu_mau.sql</code>.</div>
+    }
+
+    <div class="text-center mt-3">
+        @Html.ActionLink("Xem tat ca san pham", "Index", "Menu", null, new { @class = "btn btn-outline-trasua" })
+    </div>
+</div>
+
+<!-- DANH MUC -->
+<div class="container mt-5 mb-4">
+    <h2 class="section-title">Danh muc</h2>
+
+    @if (ViewBag.DanhMuc != null)
+    {
+        <div class="row">
+            @foreach (var dm in ViewBag.DanhMuc)
+            {
+                <div class="col-6 col-md-4 col-lg-3 mb-3">
+                    <a href="@Url.Action("TheoLoai", "Menu", new { id = dm.MaDanhMuc })" class="card-danhmuc">
+                        @dm.TenDanhMuc
+                    </a>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">Chua co danh muc nao.</div>
+    }
+</div>

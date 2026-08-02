@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="180" viewBox="0 0 300 180">
+  <rect width="300" height="180" fill="#F5EFE6"/>
+  <circle cx="150" cy="72" r="26" fill="#D4B896" opacity="0.55"/>
+  <path d="M150 60 v 24 M138 72 h 24" stroke="#8B5A2B" stroke-width="3" stroke-linecap="round" opacity="0.4"/>
+  <text x="150" y="135" font-family="Segoe UI, Arial" font-size="14" fill="#8B5A2B" text-anchor="middle" font-weight="600">Khong co anh</text>
+</svg>

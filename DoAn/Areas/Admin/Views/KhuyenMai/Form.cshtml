@@ -1,0 +1,95 @@
+@model DACK_LTW_Nhom4.Models.KhuyenMai
+@{
+    bool laThem = Model.MaKhuyenMai == 0;
+    string action = laThem ? "Them" : "Sua";
+    ViewBag.Title = laThem ? "Them KM" : "Sua KM";
+    var sanPham = ViewBag.SanPham as System.Collections.Generic.List<DACK_LTW_Nhom4.Models.SanPham>;
+    int[] chon = ViewBag.SanPhamChon as int[];
+    if (chon == null)
+    {
+        chon = new int[0];
+    }
+}
+
+<div class="bg-white rounded p-4" style="border:1px solid #E5D8C5; max-width:900px;">
+    @using (Html.BeginForm(action, "KhuyenMai", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.MaKhuyenMai)
+        @Html.HiddenFor(m => m.NgayTao)
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+        <div class="form-group">
+            <label>Ten chuong trinh <span class="text-danger">*</span></label>
+            @Html.TextBoxFor(m => m.TenChuongTrinh, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TenChuongTrinh, "", new { @class = "text-danger small" })
+        </div>
+
+        <div class="form-group">
+            <label>Mo ta</label>
+            @Html.TextAreaFor(m => m.MoTa, new { @class = "form-control", rows = "2" })
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label>Kieu giam</label>
+                <select name="KieuGiam" class="form-control">
+                    <option value="PhanTram" @(Model.KieuGiam == "PhanTram" ? "selected" : "")>% (Phan tram)</option>
+                    <option value="SoTien" @(Model.KieuGiam == "SoTien" ? "selected" : "")>VND (So tien)</option>
+                </select>
+            </div>
+            <div class="col-md-4 form-group">
+                <label>Gia tri</label>
+                @Html.TextBoxFor(m => m.GiaTri, new { @class = "form-control", type = "number", step = "1" })
+                @Html.ValidationMessageFor(m => m.GiaTri, "", new { @class = "text-danger small" })
+            </div>
+            <div class="col-md-4 form-group">
+                <label>Trang thai</label>
+                <select name="TrangThai" class="form-control">
+                    <option value="NhapNhay" @(Model.TrangThai == "NhapNhay" ? "selected" : "")>Nhap nhay (chua chay)</option>
+                    <option value="DangChay" @(Model.TrangThai == "DangChay" ? "selected" : "")>Dang chay</option>
+                    <option value="KetThuc" @(Model.TrangThai == "KetThuc" ? "selected" : "")>Ket thuc</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 form-group">
+                <label>Ngay bat dau</label>
+                <input type="date" name="NgayBatDau" class="form-control" value="@Model.NgayBatDau.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="col-md-6 form-group">
+                <label>Ngay ket thuc</label>
+                <input type="date" name="NgayKetThuc" class="form-control" value="@Model.NgayKetThuc.ToString("yyyy-MM-dd")" />
+                @Html.ValidationMessage("NgayKetThuc", "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        if (sanPham != null && sanPham.Any())
+        {
+            <div class="form-group">
+                <label>San pham ap dung</label>
+                <div style="max-height:240px; overflow-y:auto; border:1px solid #E5D8C5; padding:10px; border-radius:6px; background:#FAF7F2;">
+                    @foreach (var sp in sanPham)
+                    {
+                        bool daChon = chon.Contains(sp.MaSanPham);
+                        <label class="d-block mb-1">
+                            @if (daChon)
+                            {
+                                <input type="checkbox" name="sanPhamIds" value="@sp.MaSanPham" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="sanPhamIds" value="@sp.MaSanPham" />
+                            }
+                            @sp.TenSanPham
+                        </label>
+                    }
+                </div>
+            </div>
+        }
+
+        <button type="submit" class="btn btn-trasua">@(laThem ? "Them moi" : "Cap nhat")</button>
+        @Html.ActionLink("Huy", "Index", null, new { @class = "btn btn-outline-secondary ml-2" })
+    }
+</div>

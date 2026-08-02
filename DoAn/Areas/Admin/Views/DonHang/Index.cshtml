@@ -1,0 +1,74 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.DonHang>
+@{
+    ViewBag.Title = "Don hang";
+    string trangThai = ViewBag.TrangThai as string;
+    DateTime? tuNgay = ViewBag.TuNgay as DateTime?;
+    DateTime? denNgay = ViewBag.DenNgay as DateTime?;
+}
+
+<form method="get" action="@Url.Action("Index")" class="bg-white rounded p-3 mb-3" style="border:1px solid #E5D8C5;">
+    <div class="row">
+        <div class="col-md-3 form-group">
+            <label class="small">Trang thai</label>
+            <select name="trangThai" class="form-control">
+                <option value="">- Tat ca -</option>
+                <option value="ChoXacNhan" @(trangThai == "ChoXacNhan" ? "selected" : "")>Cho xac nhan</option>
+                <option value="DangChuanBi" @(trangThai == "DangChuanBi" ? "selected" : "")>Dang chuan bi</option>
+                <option value="DangGiao" @(trangThai == "DangGiao" ? "selected" : "")>Dang giao</option>
+                <option value="HoanThanh" @(trangThai == "HoanThanh" ? "selected" : "")>Hoan thanh</option>
+                <option value="DaHuy" @(trangThai == "DaHuy" ? "selected" : "")>Da huy</option>
+            </select>
+        </div>
+        <div class="col-md-3 form-group">
+            <label class="small">Tu ngay</label>
+            <input type="date" name="tuNgay" class="form-control" value="@(tuNgay.HasValue ? tuNgay.Value.ToString("yyyy-MM-dd") : "")" />
+        </div>
+        <div class="col-md-3 form-group">
+            <label class="small">Den ngay</label>
+            <input type="date" name="denNgay" class="form-control" value="@(denNgay.HasValue ? denNgay.Value.ToString("yyyy-MM-dd") : "")" />
+        </div>
+        <div class="col-md-3 form-group d-flex align-items-end">
+            <button type="submit" class="btn btn-trasua mr-2">Loc</button>
+            @Html.ActionLink("Bo loc", "Index", null, new { @class = "btn btn-outline-secondary" })
+        </div>
+    </div>
+</form>
+
+<div class="bg-white rounded p-3" style="border:1px solid #E5D8C5;">
+    <table class="table table-trasua mb-0">
+        <thead>
+            <tr>
+                <th>Ma</th>
+                <th>Khach hang</th>
+                <th>Ngay dat</th>
+                <th class="text-right">Tong</th>
+                <th class="text-center">Trang thai</th>
+                <th class="text-right">Thao tac</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var dh in Model)
+                {
+                    <tr>
+                        <td><strong>#@dh.MaDonHang</strong></td>
+                        <td>@(dh.NguoiDung != null ? dh.NguoiDung.HoTen : "") <br /><small class="text-muted">@dh.SoDienThoai</small></td>
+                        <td>@dh.NgayDat.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="text-right font-weight-bold">@string.Format("{0:N0}", dh.TongThanhToan) d</td>
+                        <td class="text-center">
+                            <span class="badge-trangthai badge-@dh.TrangThai">@dh.TrangThai</span>
+                        </td>
+                        <td class="text-right">
+                            @Html.ActionLink("Chi tiet", "ChiTiet", new { id = dh.MaDonHang }, new { @class = "btn btn-sm btn-outline-trasua" })
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6" class="text-center text-muted">Khong co don hang phu hop.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>

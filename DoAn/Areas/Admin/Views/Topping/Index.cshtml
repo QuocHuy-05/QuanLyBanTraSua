@@ -1,0 +1,60 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.Topping>
+@{
+    ViewBag.Title = "Topping";
+}
+
+<div class="d-flex justify-content-end mb-3">
+    @Html.ActionLink("+ Them topping", "Them", null, new { @class = "btn btn-trasua" })
+</div>
+
+<div class="bg-white rounded p-3" style="border:1px solid #E5D8C5;">
+    <table class="table table-trasua mb-0">
+        <thead>
+            <tr>
+                <th>Ma</th>
+                <th>Ten topping</th>
+                <th class="text-right">Gia them</th>
+                <th class="text-center">Trang thai</th>
+                <th class="text-right" style="width:200px;">Thao tac</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var tp in Model)
+                {
+                    <tr>
+                        <td>@tp.MaTopping</td>
+                        <td>@tp.TenTopping</td>
+                        <td class="text-right">@string.Format("{0:N0}", tp.GiaThem) d</td>
+                        <td class="text-center">
+                            @if (tp.TrangThai) { <span class="badge badge-success">Dung</span> }
+                            else { <span class="badge badge-secondary">Tat</span> }
+                        </td>
+                        <td class="text-right">
+                            @Html.ActionLink("Sua", "Sua", new { id = tp.MaTopping }, new { @class = "btn btn-sm btn-outline-trasua" })
+                            <button class="btn btn-sm btn-outline-secondary btn-doi-tt" data-id="@tp.MaTopping">Bat/Tat</button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="5" class="text-center text-muted">Chua co topping.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('.btn-doi-tt').on('click', function () {
+                var id = $(this).data('id');
+                $.post('@Url.Action("DoiTrangThai")', { id: id }, function (rs) {
+                    if (rs.thanhCong) location.reload();
+                });
+            });
+        });
+    </script>
+}

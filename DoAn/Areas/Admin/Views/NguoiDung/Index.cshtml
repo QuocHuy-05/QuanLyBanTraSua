@@ -1,0 +1,95 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.NguoiDung>
+@{
+    ViewBag.Title = "Nguoi dung";
+    string vaiTro = ViewBag.VaiTro as string;
+    string tuKhoa = ViewBag.TuKhoa as string;
+}
+
+<form method="get" action="@Url.Action("Index")" class="bg-white rounded p-3 mb-3" style="border:1px solid #E5D8C5;">
+    <div class="row">
+        <div class="col-md-3 form-group">
+            <label class="small">Vai tro</label>
+            <select name="vaiTro" class="form-control">
+                <option value="">- Tat ca -</option>
+                <option value="KhachHang" @(vaiTro == "KhachHang" ? "selected" : "")>Khach hang</option>
+                <option value="Admin" @(vaiTro == "Admin" ? "selected" : "")>Admin</option>
+            </select>
+        </div>
+        <div class="col-md-6 form-group">
+            <label class="small">Tim kiem</label>
+            <input type="text" name="tuKhoa" class="form-control" placeholder="Ho ten, email, sdt..." value="@tuKhoa" />
+        </div>
+        <div class="col-md-3 form-group d-flex align-items-end">
+            <button type="submit" class="btn btn-trasua">Tim</button>
+        </div>
+    </div>
+</form>
+
+<div class="bg-white rounded p-3" style="border:1px solid #E5D8C5;">
+    <table class="table table-trasua mb-0">
+        <thead>
+            <tr>
+                <th>Ma</th>
+                <th>Ho ten</th>
+                <th>Email</th>
+                <th>SDT</th>
+                <th class="text-center">Vai tro</th>
+                <th>Ngay tao</th>
+                <th class="text-center">Trang thai</th>
+                <th class="text-right" style="width:140px;">Thao tac</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var nd in Model)
+                {
+                    <tr>
+                        <td>@nd.MaNguoiDung</td>
+                        <td>@nd.HoTen</td>
+                        <td>@nd.Email</td>
+                        <td>@nd.SoDienThoai</td>
+                        <td class="text-center">
+                            @if (nd.VaiTro == "Admin") { <span class="badge badge-warning">Admin</span> }
+                            else { <span class="badge badge-info">Khach</span> }
+                        </td>
+                        <td>@nd.NgayTao.ToString("dd/MM/yyyy")</td>
+                        <td class="text-center">
+                            @if (nd.TrangThai) { <span class="badge badge-success">Hoat dong</span> }
+                            else { <span class="badge badge-danger">Bi khoa</span> }
+                        </td>
+                        <td class="text-right">
+                            @if (nd.VaiTro != "Admin")
+                            {
+                                <button class="btn btn-sm btn-outline-secondary btn-doi-tt" data-id="@nd.MaNguoiDung">Khoa/Mo</button>
+                            }
+                            else
+                            {
+                                <span class="text-muted small">--</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="8" class="text-center text-muted">Khong co nguoi dung phu hop.</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts {
+    <script>
+        $(function () {
+            $('.btn-doi-tt').on('click', function () {
+                var id = $(this).data('id');
+                if (!confirm('Chuyen trang thai tai khoan nay?')) return;
+                $.post('@Url.Action("DoiTrangThai")', { id: id }, function (rs) {
+                    if (rs.thanhCong) location.reload();
+                    else alert(rs.thongBao || 'Co loi.');
+                });
+            });
+        });
+    </script>
+}

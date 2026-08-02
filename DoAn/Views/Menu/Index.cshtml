@@ -1,0 +1,55 @@
+@model IEnumerable<DACK_LTW_Nhom4.Models.SanPham>
+@{
+    ViewBag.Title = "Menu";
+    var danhMuc = ViewBag.DanhMuc as System.Collections.Generic.List<DACK_LTW_Nhom4.Models.DanhMuc>;
+}
+
+<div class="container mt-4">
+
+    <h2 class="section-title">Tat ca san pham</h2>
+
+    <!-- Loc theo danh muc -->
+    @if (danhMuc != null && danhMuc.Count > 0)
+    {
+        <div class="mb-4">
+            @Html.ActionLink("Tat ca", "Index", "Menu", null, new { @class = "btn btn-trasua btn-sm mr-2 mb-2" })
+            @foreach (var dm in danhMuc)
+            {
+                @Html.ActionLink(dm.TenDanhMuc, "TheoLoai", "Menu", new { id = dm.MaDanhMuc }, new { @class = "btn btn-outline-trasua btn-sm mr-2 mb-2" })
+            }
+        </div>
+    }
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+            @foreach (var sp in Model)
+            {
+                <div class="col-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card-sanpham">
+                        @{
+                            string hinhAnh = !string.IsNullOrEmpty(sp.HinhAnh) ? sp.HinhAnh : Url.Content("~/Content/Images/no-image.svg");
+                        }
+                        <div class="card-img-wrap">
+                            <img src="@hinhAnh" alt="@sp.TenSanPham" onerror="this.src='@Url.Content("~/Content/Images/no-image.svg")'" />
+                        </div>
+                        <div class="card-body">
+                            @if (sp.LaBanChay)
+                            {
+                                <span class="badge-ban-chay">Ban chay</span>
+                            }
+                            <h6 class="card-title">@sp.TenSanPham</h6>
+                            <div class="price">@string.Format("{0:N0}", sp.GiaS)<span style="font-size:.85rem; font-weight:500;"> d</span></div>
+                            @Html.ActionLink("Xem chi tiet", "ChiTiet", "Menu", new { id = sp.MaSanPham }, new { @class = "btn btn-outline-trasua btn-sm w-100 mt-auto" })
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">Hien chua co san pham.</div>
+    }
+
+</div>
